@@ -301,9 +301,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Framework\Editor\Tools\Tools_AutoBuilder.cs" />
     <Compile Include="Assets\Framework\Editor\Tools\Tools_Const.cs" />
     <Compile Include="Assets\Framework\Editor\Tools\Tools_File.cs" />
-    <Compile Include="Assets\Framework\Editor\Tools\Tools_Modle.cs" />
+    <Compile Include="Assets\Framework\Editor\Tools\Tools_FileTemplate.cs" />
+    <Compile Include="Assets\Framework\Editor\Tools\Tools_Module.cs" />
     <Compile Include="Assets\Framework\Editor\Tools\Tools_NewScripts.cs" />
     <Compile Include="Assets\Framework\Editor\Tools\Tools_Path.cs" />
     <Compile Include="Assets\Framework\Editor\UI\HelpTextEditor.cs" />
@@ -311,17 +313,28 @@
     <Compile Include="Assets\Framework\Editor\UI\UIToggleAssistEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Name\Animations\explain.txt" />
-    <None Include="Assets\Name\Materials\explain.txt" />
-    <None Include="Assets\Name\Models\Animation\explain.txt" />
-    <None Include="Assets\Name\Models\Texture\explain.txt" />
-    <None Include="Assets\Name\Models\explain.txt" />
-    <None Include="Assets\Name\Prefabs\explain.txt" />
-    <None Include="Assets\Name\Scenes\explain.txt" />
-    <None Include="Assets\Name\Scripts\UI\explain.txt" />
-    <None Include="Assets\Name\Scripts\explain.txt" />
-    <None Include="Assets\Name\Shader\explain.txt" />
-    <None Include="Assets\Name\Sprites\explain.txt" />
+    <None Include="Assets\Demo\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Animations\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Materials\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Models\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Prefabs\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Scenes\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Scripts\UI\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Scripts\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Shader\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Sprites\explain.txt" />
+    <None Include="Assets\Project Module\Demo\Texture\explain.txt" />
+    <None Include="Assets\Project Module\Name\Animations\explain.txt" />
+    <None Include="Assets\Project Module\Name\Materials\explain.txt" />
+    <None Include="Assets\Project Module\Name\Models\Animation\explain.txt" />
+    <None Include="Assets\Project Module\Name\Models\Texture\explain.txt" />
+    <None Include="Assets\Project Module\Name\Models\explain.txt" />
+    <None Include="Assets\Project Module\Name\Prefabs\explain.txt" />
+    <None Include="Assets\Project Module\Name\Scenes\explain.txt" />
+    <None Include="Assets\Project Module\Name\Scripts\UI\explain.txt" />
+    <None Include="Assets\Project Module\Name\Scripts\explain.txt" />
+    <None Include="Assets\Project Module\Name\Shader\explain.txt" />
+    <None Include="Assets\Project Module\Name\Sprites\explain.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

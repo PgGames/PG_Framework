@@ -7,31 +7,27 @@ using UnityEngine.Events;
 
 namespace Framework.Editor.Tools
 {
-    public class Tools_Model : EditorWindow, IHasCustomMenu, ISerializationCallbackReceiver
+    public class Tools_Module : EditorWindow, IHasCustomMenu, ISerializationCallbackReceiver
     {
-        private static Tools_Model s_instance = null;
-        internal static Tools_Model instance
+        private static Tools_Module s_instance = null;
+        internal static Tools_Module instance
         {
             get
             {
                 if (s_instance == null)
-                    s_instance = GetWindow<Tools_Model>();
+                    s_instance = GetWindow<Tools_Module>();
                 return s_instance;
             }
         }
 
 
 
-        [MenuItem("Tools/Create Model", priority = 1)]
-        static void CreatorModel()
+        [MenuItem("Tools/Create Module", priority = 8)]
+        static void CreatorModule()
         {
             s_instance = null;
-            m_ModelInfo.Init();
-            //m_Path = Application.dataPath;
-            //ModelName = null;
-            //ModelTips = null;
-            instance.titleContent = new GUIContent("Create Model");
-            //instance.minSize = new Vector2(800, 300);
+            m_ModuleInfo.Init();
+            instance.titleContent = new GUIContent("Create Module");
             instance.Show();
         }
 
@@ -53,21 +49,25 @@ namespace Framework.Editor.Tools
 
         private void OnGUI()
         {
-            if (m_ModelInfo == null)
+            if (m_ModuleInfo == null)
             {
-                m_ModelInfo = new ModelDate();
-                m_ModelInfo.Init();
+                m_ModuleInfo = new ModuleDate();
+                m_ModuleInfo.Init();
             }
-            CreateModelUI();
+            CreateModuleUI();
         }
-        internal static ModelDate m_ModelInfo = new ModelDate();
+        internal static ModuleDate m_ModuleInfo = new ModuleDate();
         private Vector2 m_ScrollPosition;
-        private void CreateModelUI()
+        private void CreateModuleUI()
         {
+            if (string.IsNullOrEmpty(m_ModuleInfo.ModulePath))
+            {
+                m_ModuleInfo.Init();
+            }
             m_ScrollPosition =  EditorGUILayout.BeginScrollView(m_ScrollPosition);
             GUILayout.BeginVertical();
             EditorGUILayout.Space();
-            m_ModelInfo.ModelPath = EditorGUILayout.TextField("Folder Path", m_ModelInfo.ModelPath);  //ShowTextField("Folder Path", m_Path);
+            m_ModuleInfo.ModulePath = EditorGUILayout.TextField("Folder Path", m_ModuleInfo.ModulePath);  //ShowTextField("Folder Path", m_Path);
 
 
             GUILayout.BeginHorizontal();
@@ -81,7 +81,7 @@ namespace Framework.Editor.Tools
                     var temppath = Application.dataPath.Replace("\\", "/");
                     if (newPath.Contains(temppath))
                     {
-                        m_ModelInfo.ModelPath = newPath;
+                        m_ModuleInfo.ModulePath = newPath;
                     }
                     else
                     {
@@ -91,16 +91,16 @@ namespace Framework.Editor.Tools
             }
             if (GUILayout.Button("UpDate", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
             {
-                m_ModelInfo.Init();
+                m_ModuleInfo.Init();
             }
             GUILayout.EndHorizontal();
             EditorGUILayout.Space();
-            m_ModelInfo.ModelName = EditorGUILayout.TextField("Model Name", m_ModelInfo.ModelName);
+            m_ModuleInfo.ModuleName = EditorGUILayout.TextField("Module Name", m_ModuleInfo.ModuleName);
             EditorGUILayout.Space();
-            m_ModelInfo.ModelTips = EditorGUILayout.TextField("Model Tips", m_ModelInfo.ModelTips);
+            m_ModuleInfo.ModuleTips = EditorGUILayout.TextField("Module Tips", m_ModuleInfo.ModuleTips);
             EditorGUILayout.Space();
-            CenterButton("Create Model",()=> {
-                CreateFolder(m_ModelInfo.ModelPath, m_ModelInfo.ModelName, m_ModelInfo.ModelTips);
+            CenterButton("Create Module", ()=> {
+                CreateFolder(m_ModuleInfo.ModulePath, m_ModuleInfo.ModuleName, m_ModuleInfo.ModuleTips);
             }, GUILayout.MaxWidth(Tools_Const.Tools_MaxButtonWidth));
             GUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
@@ -112,7 +112,7 @@ namespace Framework.Editor.Tools
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(text, options))
             {
-                CreateFolder(m_ModelInfo.ModelPath, m_ModelInfo.ModelName, m_ModelInfo.ModelTips);
+                CreateFolder(m_ModuleInfo.ModulePath, m_ModuleInfo.ModuleName, m_ModuleInfo.ModuleTips);
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
@@ -125,7 +125,7 @@ namespace Framework.Editor.Tools
             varName = varName.Replace(" ","");
             if (string.IsNullOrEmpty(varPath) || string.IsNullOrEmpty(varName) || string.IsNullOrEmpty(varTips))
                 return;
-            string tempPath = varPath + "/" + varName;
+            string tempPath = varPath + "/Project Module/" + varName;
 
             CreateFolderAndTxt(varPath, varName, varTips);
 
@@ -134,10 +134,13 @@ namespace Framework.Editor.Tools
             CreateFolderAndTxt(tempPath, "Materials", "这个文件夹用来放材质球");
             CreateFolderAndTxt(tempPath, "Shader", "这个文件夹用来放Shader文件");
             CreateFolderAndTxt(tempPath, "Texture", "这个文件夹用来放贴图");
+            
+            CreateFolderAndTxt(tempPath, "AudioClip", "这个文件夹用来放音频文件");
+            CreateFolderAndTxt(tempPath, "VideoPlayer", "这个文件夹用来放视频文件");
 
             CreateFolderAndTxt(tempPath, "Models", "这个文件夹用来放模型");
-            //CreateFolderAndTxt(tempPath, "Models/Texture", "这个文件夹用来放模型贴图");
-            //CreateFolderAndTxt(tempPath, "Models/Animation", "这个文件夹用来放模型动画");
+            //CreateFolderAndTxt(tempPath, "Model/Texture", "这个文件夹用来放模型贴图");
+            //CreateFolderAndTxt(tempPath, "Model/Animation", "这个文件夹用来放模型动画");
 
             CreateFolderAndTxt(tempPath, "Prefabs", "这个文件夹用来放不需要放在Resources文件加下的预制");
             
@@ -166,21 +169,21 @@ namespace Framework.Editor.Tools
         }
 
 
-        public class ModelDate
+        public class ModuleDate
         {
-            public string ModelPath;
-            public string ModelName;
-            public string ModelTips;
-            public ModelDate()
+            public string ModulePath;
+            public string ModuleName;
+            public string ModuleTips;
+            public ModuleDate()
             {
                 //Init();
             }
 
             public void Init()
             {
-                ModelPath = Application.dataPath;
-                ModelName = null;
-                ModelTips = null;
+                ModulePath = Application.dataPath;
+                ModuleName = null;
+                ModuleTips = null;
             }
         }
     }

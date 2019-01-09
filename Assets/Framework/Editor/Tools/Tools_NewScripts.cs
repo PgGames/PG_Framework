@@ -35,7 +35,10 @@ namespace Framework.Editor.Tools
 
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
         private static void OnWillCreateAsset(string path)
         {
 
@@ -62,18 +65,29 @@ namespace Framework.Editor.Tools
                 File.WriteAllText(temppath, content);
             }
         }
-
+        /// <summary>
+        /// 设置创建者名称
+        /// </summary>
+        /// <returns></returns>
         private static string SettingCreatorName()
         {
             return "";
         }
-
+        /// <summary>
+        /// 设置创建时间
+        /// </summary>
+        /// <returns></returns>
         private static string SettingCreateTime()
         {
             var tempCreateTime = "";
             tempCreateTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             return tempCreateTime;
         }
+        /// <summary>
+        /// 设置命名空间
+        /// </summary>
+        /// <param name="varpath"></param>
+        /// <returns></returns>
         private static string SettingNameSpace(string varpath)
         {
             var temp_namespace = "";
@@ -82,6 +96,7 @@ namespace Framework.Editor.Tools
             temp_namespace = tmep_DirectoryName.Replace("/", ".");
             temp_namespace = temp_namespace.Replace("Scripts", "");
             temp_namespace = temp_namespace.Replace("Assets", "");
+            temp_namespace = temp_namespace.Replace("Resources", "");
             temp_namespace = temp_namespace.Replace("..", ".");
 
             temp_namespace = temp_namespace.Trim('.');
