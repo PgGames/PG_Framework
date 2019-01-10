@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 namespace Framework.Scene
 {
@@ -7,14 +8,16 @@ namespace Framework.Scene
     {
         #region Fields
 
-        public MoveState m_State;
+        /// <summary>
+        /// 移动结束回调（可点击状态下有效）
+        /// </summary>
+        public Callback OnCallBack = new Callback();
 
-
-
-        Vector3 screenSpace;
-        //Vector3 initPos;
-        Vector3 offset;
-        bool IsOnclick = false;
+        [SerializeField]
+        private MoveState m_State;
+        private Vector3 screenSpace;
+        private Vector3 offset;
+        private bool IsOnclick = false;
 
         #endregion
 
@@ -65,6 +68,7 @@ namespace Framework.Scene
                     else
                     {
                         IsOnclick = false;
+                        OnCallBack.Invoke();
                     }
                 }
             }
@@ -124,6 +128,9 @@ namespace Framework.Scene
         {
             OnClick,
             NotClick
+        }
+        public class Callback : UnityEvent
+        {
         }
     }
 }

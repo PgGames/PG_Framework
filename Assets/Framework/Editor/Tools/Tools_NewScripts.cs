@@ -50,17 +50,18 @@ namespace Framework.Editor.Tools
                 string content = File.ReadAllText(temppath);
                 //替换文本中的内容
                 //更改为自定义的规则
+                //创建人
                 var temp_CreatorName = SettingCreatorName();
-                content = content.Replace("#DEVELOPERNAME#", temp_CreatorName);
                 content = content.Replace("#CREATORNAME#", temp_CreatorName);
+                content = content.Replace("#DEVELOPERNAME#", temp_CreatorName);
                 //创建时间
                 var temp_CreatTime = SettingCreateTime();
                 content = content.Replace("#CREATETIME#", temp_CreatTime);
                 content = content.Replace("#CREATIONDATE#", temp_CreatTime);
                 //命名空间
                 var temp_namespace = SettingNameSpace(temppath);
-                content = content.Replace("#ROOTNAMESPACE#", temp_namespace);
                 content = content.Replace("#NAMESPACE#", temp_namespace);
+                content = content.Replace("#ROOTNAMESPACE#", temp_namespace);
 
                 File.WriteAllText(temppath, content);
             }
