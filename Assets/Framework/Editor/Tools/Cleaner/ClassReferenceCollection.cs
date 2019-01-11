@@ -14,7 +14,7 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 
-namespace AssetClean
+namespace Framework.Editor.Tools.Cleaner
 {
 	public class ClassReferenceCollection
 	{

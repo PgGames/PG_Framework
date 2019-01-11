@@ -12,7 +12,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
 
-namespace AssetClean
+namespace Framework.Editor.Tools.Cleaner
 {
 	public class ShaderReferenceCollection
 	{

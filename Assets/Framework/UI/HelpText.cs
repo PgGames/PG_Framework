@@ -98,7 +98,6 @@ namespace Framework.UI
         private int m_PassLenght;
         private int m_Text_indent;
         private bool m_IsSpace;
-
         private string mJudge_Text;
         private Type mJudge_Type;
         private bool mJudge_Folat;

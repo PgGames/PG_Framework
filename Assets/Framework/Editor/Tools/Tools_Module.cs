@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Framework.Editor.Tools
 {
-    public class Tools_Module : EditorWindow, IHasCustomMenu, ISerializationCallbackReceiver
+    public class Tools_Module : EditorWindow
     {
         private static Tools_Module s_instance = null;
         internal static Tools_Module instance
@@ -30,21 +30,7 @@ namespace Framework.Editor.Tools
             instance.titleContent = new GUIContent("Create Module");
             instance.Show();
         }
-
-
-
-
-        public void AddItemsToMenu(GenericMenu menu)
-        {
-        }
-
-        public void OnAfterDeserialize()
-        {
-        }
-
-        public void OnBeforeSerialize()
-        {
-        }
+        
 
 
         private void OnGUI()
@@ -112,7 +98,7 @@ namespace Framework.Editor.Tools
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(text, options))
             {
-                CreateFolder(m_ModuleInfo.ModulePath, m_ModuleInfo.ModuleName, m_ModuleInfo.ModuleTips);
+                action.Invoke();
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
@@ -121,39 +107,65 @@ namespace Framework.Editor.Tools
 
         private void CreateFolder(string varPath,string varName,string varTips)
         {
+            string message = null;
+            try
+            {
+                if (string.IsNullOrEmpty(varPath))
+                {
+                    message = "Create Module Fail, Folder Path Can't Null";
+                    return;
+                }
+                if (string.IsNullOrEmpty(varName))
+                {
+                    message = "Create Module Fail, Module Name Can't Null";
+                    return;
+                }
+                else
+                {
+                    varName = varName.Replace(" ", "");
+                }
+                if (string.IsNullOrEmpty(varTips))
+                {
+                    message = "Create Module Fail, Module Tips Can't Null";
+                    return;
+                }
+                string tempPath = varPath + "/Project Module/" + varName;
 
-            varName = varName.Replace(" ","");
-            if (string.IsNullOrEmpty(varPath) || string.IsNullOrEmpty(varName) || string.IsNullOrEmpty(varTips))
-                return;
-            string tempPath = varPath + "/Project Module/" + varName;
+                CreateFolderAndTxt(varPath, varName, varTips);
 
-            CreateFolderAndTxt(varPath, varName, varTips);
+                CreateFolderAndTxt(tempPath, "Animations", "这个文件夹用来放动画文件\n自己做的动画");
+                CreateFolderAndTxt(tempPath, "Sprites", "这个文件夹用来放UI图片");
+                CreateFolderAndTxt(tempPath, "Materials", "这个文件夹用来放材质球");
+                CreateFolderAndTxt(tempPath, "Shader", "这个文件夹用来放Shader文件");
+                CreateFolderAndTxt(tempPath, "Texture", "这个文件夹用来放贴图");
 
-            CreateFolderAndTxt(tempPath, "Animations", "这个文件夹用来放动画文件\n自己做的动画");
-            CreateFolderAndTxt(tempPath, "Sprites", "这个文件夹用来放UI图片");
-            CreateFolderAndTxt(tempPath, "Materials", "这个文件夹用来放材质球");
-            CreateFolderAndTxt(tempPath, "Shader", "这个文件夹用来放Shader文件");
-            CreateFolderAndTxt(tempPath, "Texture", "这个文件夹用来放贴图");
-            
-            CreateFolderAndTxt(tempPath, "AudioClip", "这个文件夹用来放音频文件");
-            CreateFolderAndTxt(tempPath, "VideoPlayer", "这个文件夹用来放视频文件");
+                CreateFolderAndTxt(tempPath, "AudioClip", "这个文件夹用来放音频文件");
+                CreateFolderAndTxt(tempPath, "VideoPlayer", "这个文件夹用来放视频文件");
 
-            CreateFolderAndTxt(tempPath, "Models", "这个文件夹用来放模型");
-            //CreateFolderAndTxt(tempPath, "Model/Texture", "这个文件夹用来放模型贴图");
-            //CreateFolderAndTxt(tempPath, "Model/Animation", "这个文件夹用来放模型动画");
+                CreateFolderAndTxt(tempPath, "Models", "这个文件夹用来放模型");
+                //CreateFolderAndTxt(tempPath, "Model/Texture", "这个文件夹用来放模型贴图");
+                //CreateFolderAndTxt(tempPath, "Model/Animation", "这个文件夹用来放模型动画");
 
-            CreateFolderAndTxt(tempPath, "Prefabs", "这个文件夹用来放不需要放在Resources文件加下的预制");
-            
-            CreateFolderAndTxt(tempPath, "Resources/" + varName + "/Prefabs", null);
-            CreateFolderAndTxt(tempPath, "Resources/" + varName + "/UI/Prefabs", null);
+                CreateFolderAndTxt(tempPath, "Prefabs", "这个文件夹用来放不需要放在Resources文件加下的预制");
 
-            CreateFolderAndTxt(tempPath, "Scripts", "这个文件夹用来放脚本按功能划分文件夹\n脚本统一按模块名称进行设置命名空间");
-            CreateFolderAndTxt(tempPath, "Scripts/UI", "这个文件夹用来放模块中的UI脚本");
+                CreateFolderAndTxt(tempPath, "Resources/" + varName + "/Prefabs", null);
+                CreateFolderAndTxt(tempPath, "Resources/" + varName + "/UI/Prefabs", null);
 
-            CreateFolderAndTxt(tempPath, "Scenes", "这个文件夹用来放场景");
-            
-            //刷新资源
-            AssetDatabase.Refresh();
+                CreateFolderAndTxt(tempPath, "Scripts", "这个文件夹用来放脚本按功能划分文件夹\n脚本统一按模块名称进行设置命名空间");
+                CreateFolderAndTxt(tempPath, "Scripts/UI", "这个文件夹用来放模块中的UI脚本");
+
+                CreateFolderAndTxt(tempPath, "Scenes", "这个文件夹用来放场景");
+
+                //刷新资源
+                AssetDatabase.Refresh();
+                message = "Create " + varName + " Module Success";
+            }
+            catch
+            { }
+            finally
+            {
+                EditorUtility.DisplayDialog("Create Module", message, "Clsoe");
+            }
         }
         private void CreateFolderAndTxt(string varPath,string varName,string varContent)
         {
