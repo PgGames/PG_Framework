@@ -15,13 +15,15 @@
 using UnityEngine;
 using System.Collections;
 using Framework.Manager;
+using Framework.Help;
 
 namespace Name.UI
 {
     public class WindowsInfo : MonoBehaviour
     {
         #region Fields
-
+        [SerializeField]
+        GameObject key;
         #endregion
 
         #region Properties
@@ -29,10 +31,14 @@ namespace Name.UI
         #endregion
 
         #region Unity Messages
-        //    void Awake()
-        //    {
-        //
-        //    }
+        void Awake()
+        {
+#if UNITY_EDITOR
+            var temp = key.AddComponent<HelpTxtValueToKey>();
+            temp.enabled = true;
+            temp.SettingKey("OpenWindows");
+#endif
+        }
         //    void OnEnable()
         //    {
         //
@@ -58,13 +64,13 @@ namespace Name.UI
         //
         //    }
 
-        #endregion
+#endregion
 
-        #region Private Methods
+#region Private Methods
 
-        #endregion
+#endregion
 
-        #region Protected & Public Methods
+#region Protected & Public Methods
 
 
         public void OpenWindows(string WindowsName)
@@ -89,6 +95,6 @@ namespace Name.UI
             WindowsManager.GetManager.DestroyWindows(this.transform);
         }
 
-        #endregion
+#endregion
     }
 }

@@ -65,6 +65,8 @@ namespace Framework.Editor.Tools
 
                 File.WriteAllText(temppath, content);
             }
+            //刷新资源
+            AssetDatabase.Refresh();
         }
         /// <summary>
         /// 设置创建者名称

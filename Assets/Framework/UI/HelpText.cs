@@ -115,6 +115,18 @@ namespace Framework.UI
                 UpDateText();
             }
         }
+
+
+#if UNITY_EDITOR
+        protected override void OnValidate()
+        {
+            UpdateProperty();
+            UpDateText();
+        }
+#endif
+
+
+
         //修改RectTransform属性回调
         protected override void OnRectTransformDimensionsChange()
         {
@@ -128,12 +140,12 @@ namespace Framework.UI
             UpDateText();
         }
 
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            UpdateProperty();
-            UpDateText();
-        }
+        //protected override void OnValidate()
+        //{
+        //    base.OnValidate();
+        //    UpdateProperty();
+        //    UpDateText();
+        //}
 
         /// <summary>
         /// 判断是否更新

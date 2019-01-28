@@ -17,49 +17,7 @@ namespace Framework.Manager
     public class LanguageManager : DontManager<LanguageManager>
     {
         private List<Action> CallBack = new List<Action>();
-        /// <summary>
-        /// 语言类型
-        /// </summary>
-        public enum LanguageType
-        {
-            /// <summary>
-            /// 中文
-            /// </summary>
-            Chinese,
-            /// <summary>
-            /// 英文
-            /// </summary>
-            English,
-            /// <summary>
-            /// 韩文
-            /// </summary>
-            Korean,
-            /// <summary>
-            /// 日文
-            /// </summary>
-            Japanese,
-            /// <summary>
-            /// 德文
-            /// </summary>
-            German,
-            /// <summary>
-            /// 藏文
-            /// </summary>
-            Tibetan,
-            /// <summary>
-            /// 俄文
-            /// </summary>
-            Russian,
-            /// <summary>
-            /// 西班牙文
-            /// </summary>
-            Spanish,
-            /// <summary>
-            /// 其他语言
-            /// </summary>
-            Other
-        }
-        private LanguageType m_Language = LanguageType.Chinese;
+        private SystemLanguage m_Language = SystemLanguage.Unknown;
 
 
         #region 公开方法
@@ -78,25 +36,46 @@ namespace Framework.Manager
                 return Key;
             return GetValue(Key, Temp_Language);
         }
-
         /// <summary>
         /// 获取值
         /// </summary>
+        /// <param name="varSplicing">拼接的字符</param>
         /// <param name="Key"></param>
         /// <returns></returns>
-        public string GetValueToKeys(params string[] Key)
+        public string GetValueToKeys(string varSplicing, params string[] Key)
         {
             if (Key == null)
                 return null;
             if (Key.Length == 0)
                 return null;
+            if (varSplicing == null)
+            {
+                varSplicing = "";
+            }
             string str = "";
             for (int i = 0; i < Key.Length; i++)
             {
-                str += GetValueToKey(Key[i]);
+                if (i == 0)
+                { 
+                    str = GetValueToKey(Key[i]);
+                }
+                else
+                {
+                    str += varSplicing + GetValueToKey(Key[i]);
+                }
             }
             return str;
         }
+        /// <summary>
+        /// 获取当前语言类型
+        /// </summary>
+        public SystemLanguage GetLanguage
+        {
+            get {
+                return m_Language;
+            }
+        }
+
         /// <summary>
         /// 添加语言切换回调
         /// </summary>
@@ -110,7 +89,7 @@ namespace Framework.Manager
         /// <summary>
         /// 切换语言
         /// </summary>
-        public LanguageType Setting_LanguageType
+        public SystemLanguage Setting_LanguageType
         {
             set
             {
@@ -132,12 +111,26 @@ namespace Framework.Manager
             ReadText(language);
         }
 
+
+        protected override void OnAwake()
+        {
+            if (m_Language == SystemLanguage.Unknown)
+            {
+                m_Language = Application.systemLanguage;
+            }
+            if (m_Language == SystemLanguage.Unknown)
+            {
+                m_Language = SystemLanguage.Chinese;
+            }
+            base.OnAwake();
+        }
+
         #endregion
 
         /// <summary>
         /// 语言字典
         /// </summary>
-        protected Dictionary<LanguageType, Dictionary<string, string>> Dic_Language = new Dictionary<LanguageType, Dictionary<string, string>>();
+        protected Dictionary<SystemLanguage, Dictionary<string, string>> Dic_Language = new Dictionary<SystemLanguage, Dictionary<string, string>>();
 
 
 
@@ -320,7 +313,7 @@ namespace Framework.Manager
             /// <summary>
             /// 语言类型
             /// </summary>
-            public LanguageType m_Type;
+            public SystemLanguage m_Type;
             /// <summary>
             /// 语言文本
             /// </summary>

@@ -11,10 +11,7 @@ namespace Framework.UI
     public class UIButton : Button
     {
         public ClickGame onClickGame = new ClickGame();
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-        }
+
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);

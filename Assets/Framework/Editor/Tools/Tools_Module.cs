@@ -129,7 +129,7 @@ namespace Framework.Editor.Tools
                     message = "Create Module Fail, Module Tips Can't Null";
                     return;
                 }
-                string tempPath = varPath + "/Project Module/" + varName;
+                string tempPath = varPath + "/" + varName;
 
                 CreateFolderAndTxt(varPath, varName, varTips);
 
@@ -193,7 +193,7 @@ namespace Framework.Editor.Tools
 
             public void Init()
             {
-                ModulePath = Application.dataPath;
+                ModulePath = Application.dataPath+ "/Project Module";
                 ModuleName = null;
                 ModuleTips = null;
             }

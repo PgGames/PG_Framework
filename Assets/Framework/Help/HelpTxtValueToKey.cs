@@ -27,8 +27,12 @@ namespace Framework.Help
             LanguageManager.GetManager.Add(GetValueToKey);
             m_Centent = this.transform.GetComponent<HelpText>();
             if (m_Centent == null)
+            {
                 if (m_Content == null)
+                {
                     m_Content = this.transform.GetComponent<Text>();
+                }
+            }
             GetValueToKey();
         }
         /// <summary>
@@ -51,9 +55,13 @@ namespace Framework.Help
         {
             string Value = LanguageManager.GetManager.GetValueToKey(Key);
             if (m_Centent != null)
+            {
                 m_Centent.text = Value;
+            }
             if (m_Content != null)
+            {
                 m_Content.text = Value;
+            }
         }
     }
 }

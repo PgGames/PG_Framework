@@ -16,10 +16,6 @@ namespace Framework.UI
         {
             base.Awake();
         }
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-        }
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
