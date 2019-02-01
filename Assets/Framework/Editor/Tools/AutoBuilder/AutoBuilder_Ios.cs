@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections;
+using System.Text;
 
 namespace Framework.Editor.Tools.AutoBuilder
 {
@@ -8,8 +9,8 @@ namespace Framework.Editor.Tools.AutoBuilder
     {
         internal void Ios()
         {
-            Debug.Log("´ý²âÊÔ½×¶Î");
-           // SwitchApplication(BuildTarget.iOS);
+            Debug.Log(Encoding.UTF8.GetBytes("´ý²âÊÔ½×¶Î").ToString());
+            // SwitchApplication(BuildTarget.iOS);
         }
         internal void MacOSX()
         {
@@ -28,8 +29,8 @@ namespace Framework.Editor.Tools.AutoBuilder
             //}
             //else if (varTarget == BuildTarget.iOS)
             //{
-                filename = OutBackPath + "/"+ Application.productName;
-                index = (int)BuildOptions.AcceptExternalModificationsToPlayer;
+            filename = OutBackPath + "/" + Application.productName;
+            index = (int)BuildOptions.AcceptExternalModificationsToPlayer;
             //index += (int)BuildOptions.ShowBuiltPlayer;
             //index += (int)BuildOptions.SymlinkLibraries;
             //}

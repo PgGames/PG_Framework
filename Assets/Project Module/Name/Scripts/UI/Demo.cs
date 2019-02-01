@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.Collections;
+using Framework;
 
 namespace ProjectModule.Name.UI
 {
@@ -42,12 +43,15 @@ namespace ProjectModule.Name.UI
             //Framework.Systems.Hardware temp = new Framework.Systems.Hardware();
             //Debug.LogError(temp.GetHardwareID());
         }
-        //    
-        //    void Update() 
-        //    {
-        //    
-        //    }
-        //
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Debuger.Log("==========");
+            }
+        }
+
         //    void OnDisable()
         //    {
         //

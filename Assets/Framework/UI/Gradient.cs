@@ -23,6 +23,11 @@ namespace Framework.UI
         /// </summary>
         public Color32 TwoColor = Color.black;
         /// <summary>
+        /// 中间颜色
+        /// </summary>
+        public Color32 CenterColor = Color.blue;
+        public bool isDemo;
+        /// <summary>
         /// 设置颜色的方式
         /// </summary>
         public Whole m_Whole = Whole.Every;
@@ -179,7 +184,25 @@ namespace Framework.UI
                     temp_Value = uiElementHeight + uiElementWidth;
                     break;
             }
-            uiVertex.color = Color32.LerpUnclamped(OneColor, TwoColor, (temp_Width + temp_Hight) / temp_Value);
+            if (isDemo)
+            {
+                float tempvalue = temp_Value / 2;
+                
+                if ((temp_Width + temp_Hight) > tempvalue)
+                {
+                    float tempsum = (temp_Width + temp_Hight) - (tempvalue);
+                    uiVertex.color = Color32.LerpUnclamped(CenterColor, TwoColor, tempsum / tempvalue);
+                }
+                else
+                {
+                    float tempsum = (temp_Width + temp_Hight) % (tempvalue);
+                    uiVertex.color = Color32.LerpUnclamped(OneColor, CenterColor, tempsum / tempvalue);
+                }
+            }
+            else
+            {
+                uiVertex.color = Color32.LerpUnclamped(OneColor, TwoColor, (temp_Width + temp_Hight) / temp_Value);
+            }
             return uiVertex;
         }
 
@@ -196,6 +219,10 @@ namespace Framework.UI
             /// 整体
             /// </summary>
             Whole,
+            /// <summary>
+            /// 三色
+            /// </summary>
+            Sanse,
         }
         public enum GradientType
         {
