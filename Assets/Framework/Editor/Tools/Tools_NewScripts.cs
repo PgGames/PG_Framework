@@ -64,9 +64,9 @@ namespace Framework.Editor.Tools
                 content = content.Replace("#ROOTNAMESPACE#", temp_namespace);
 
                 File.WriteAllText(temppath, content);
+                //刷新资源
+                AssetDatabase.Refresh();
             }
-            //刷新资源
-            AssetDatabase.Refresh();
         }
         /// <summary>
         /// 设置创建者名称

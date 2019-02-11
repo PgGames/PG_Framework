@@ -123,6 +123,16 @@ namespace Framework.UI
                     temp_Hight = Mathf.Abs(vector.bottomy - uiVertex.position.y);
                     temp_Value = uiElementHeight + uiElementWidth;
                     break;
+                //case GradientType.HeartCircle:
+                //    float tempheartcenterx = (vector.leftx + vector.rightx) / 2.0f;
+                //    float tempheartcentery = (vector.topy + vector.bottomy) / 2.0f;
+                //    temp_Width = Mathf.Abs(uiVertex.position.x - tempheartcenterx);
+                //    temp_Hight = Mathf.Abs(uiVertex.position.y - tempheartcentery);
+                //    temp_Value = uiElementHeight + uiElementWidth;
+                //    break;
+                //case GradientType.OuterCircle:
+                default:
+                    break;
             }
             if (m_Color.Count >= 2)
             {
