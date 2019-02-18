@@ -78,7 +78,7 @@ namespace Framework.Editor.Tools.Language
             //µº»Î import
             using (new EditorGUI.DisabledScope())
             {
-                if (CenterButton("", GUILayout.Width(_CenterButton_Width)))
+                if (CenterButton("Import Excel", GUILayout.Width(_CenterButton_Width)))
                 {
 
                 }
