@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Framework.Manager
@@ -160,16 +161,24 @@ namespace Framework.Manager
         /// <param name="varDic"></param>
         private void ReadTextAsset(Language varTextAsset, Dictionary<string, string> varDic)
         {
-            byte[] date;
+            byte[] date = null;
+            string Text = null;
             if (varTextAsset.m_Txt == null)
+            {
                 date = varTextAsset.bytes;
+            }
             else
+            {
                 date = varTextAsset.m_Txt.bytes;
-            string Text;
+            }
             if (date != null)
-                Text = BitConverter.ToString(date);
+            {
+                Text = Encoding.UTF8.GetString(date);
+            }
             else
+            {
                 Text = varTextAsset.text;
+            }
             if (string.IsNullOrEmpty(Text))
                 return;
 

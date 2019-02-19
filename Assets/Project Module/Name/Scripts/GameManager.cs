@@ -21,6 +21,7 @@ namespace Name
     public class GameManager : MonoBehaviour
     {
         #region Fields
+        public TextAsset[] m_Chinese;
 
         #endregion
 
@@ -31,13 +32,24 @@ namespace Name
         #region Unity Messages
         void Awake()
         {
-            WindowsManager.GetManager.AddResourcesWindows("0", "Name/UI/Prefabs/Button");
+            for (int i = 0; i < m_Chinese.Length; i++)
+            {
 
-            WindowsManager.GetManager.AddResourcesWindows("1", "Name/UI/Prefabs/Toggle");
+                LanguageManager.GetManager.Init(new LanguageManager.Language
+                {
+                    m_Type = SystemLanguage.Chinese,
+                    m_Txt = m_Chinese[i]
+                });
+            }
 
-            WindowsManager.GetManager.Init();
 
-            WindowsManager.GetManager.OpenWindows("0");
+            //WindowsManager.GetManager.AddResourcesWindows("0", "Name/UI/Prefabs/Button");
+
+            //WindowsManager.GetManager.AddResourcesWindows("1", "Name/UI/Prefabs/Toggle");
+
+            //WindowsManager.GetManager.Init();
+
+            //WindowsManager.GetManager.OpenWindows("0");
         }
         //    void OnEnable()
         //    {
