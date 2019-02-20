@@ -16,7 +16,7 @@ namespace Framework.Editor.Tools.Language
 
         internal override void OnEnable(EditorWindow editor)
         {
-            m_date = ReadDate<LanguageDate>(filepath);
+            m_date = Tools_Public.ReadDate<LanguageDate>(filepath);
             if (m_date == null)
             {
                 m_date = new LanguageDate();
@@ -34,7 +34,7 @@ namespace Framework.Editor.Tools.Language
         }
         internal override void OnDisable()
         {
-            SaveDate(filepath, m_date);
+            Tools_Public.SaveDate(filepath, m_date);
         }
 
 
@@ -48,10 +48,10 @@ namespace Framework.Editor.Tools.Language
                 m_date.excelpath = EditorGUILayout.TextField("Excel Path", m_date.excelpath);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("ReadFile", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+                if (GUILayout.Button("ReadFile", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
                 {
                 }
-                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
                 {
                     var newPath = EditorUtility.OpenFilePanel("OpenFile", Application.dataPath, "xlsx,xls");
                     if (!string.IsNullOrEmpty(newPath))
@@ -68,7 +68,7 @@ namespace Framework.Editor.Tools.Language
                 m_date.languagepath = EditorGUILayout.TextField("Language Path", m_date.languagepath);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
                 {
                     var newPath = EditorUtility.OpenFolderPanel("OpenFile", Application.dataPath + "/" + m_date.languagepath, "");
                     if (!string.IsNullOrEmpty(newPath))
@@ -87,7 +87,7 @@ namespace Framework.Editor.Tools.Language
 
                 m_date.m_SaveType = (LanguageType)EditorGUILayout.EnumPopup("Save File Type",m_date.m_SaveType);
 
-                if (CenterButton("Import Excel", GUILayout.Width(_CenterButton_Width)))
+                if (Tools_Public.CenterButton("Import Excel", GUILayout.Width(Tools_Public.Tools_MaxButtonWidth)))
                 {
                     ImportExcelFile();
                     AssetDatabase.Refresh();
@@ -109,7 +109,10 @@ namespace Framework.Editor.Tools.Language
             //解析Excel文档
             AnalysisExcel(dataSet);
         }
-
+        /// <summary>
+        /// 解析Excel
+        /// </summary>
+        /// <param name="data"></param>
         void AnalysisExcel(DataSet data)
         {
             //行数
@@ -161,6 +164,10 @@ namespace Framework.Editor.Tools.Language
                 SaveDate(TempLanguageInfo[i]);
             }
         }
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="keyValues"></param>
         private void SaveDate(Dictionary<string, string> keyValues)
         {
             string filename = null;
@@ -179,7 +186,7 @@ namespace Framework.Editor.Tools.Language
                             break;
                         case LanguageType.Json:
                             filename = string.Format("{0}/{1}/{2}.json", Application.dataPath, m_date.languagepath, item.Value);
-                            str = "{";
+                            str = "[";
                             break;
                         default:
                             break;
@@ -203,12 +210,11 @@ namespace Framework.Editor.Tools.Language
             }
             if (m_date.m_SaveType == LanguageType.Json)
             {
-                texts.Add("}");
+                texts.Add("]");
             }
             if (!Directory.Exists(Path.GetDirectoryName(filename)))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(filename));
-
             }
             File.WriteAllLines(filename, texts.ToArray());
         }

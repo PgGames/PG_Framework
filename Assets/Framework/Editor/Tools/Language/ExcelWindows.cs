@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Framework.Editor.Tools.Language
 {
-    public class ExcelWindows : EditorWindow
+    public class ExcelWindows : WindowBaseEditor
     {
 
         [MenuItem("Tools/Language", priority = 2000)]
@@ -26,67 +26,6 @@ namespace Framework.Editor.Tools.Language
         //static void ExportExcels()
         //{
         //}
-
-
-        /// <summary>
-        /// 读取数据
-        /// </summary>
-        void ReadDate()
-        {
-            //读取数据
-            var dataPath = System.IO.Path.GetFullPath(".");
-            dataPath = dataPath.Replace("\\", "/");
-            dataPath += "/Library/Tools/LanguageDate.dat";
-            if (File.Exists(dataPath))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream file = File.Open(dataPath, FileMode.Open);
-                var data = bf.Deserialize(file) as LanguageDate;
-                if (data != null)
-                {
-                    m_TabData = data;
-                }
-                else
-                {
-                    InitDate();
-                }
-                file.Close();
-            }
-            else
-            {
-                InitDate();
-            }
-        }
-        /// <summary>
-        /// 存储数据
-        /// </summary>
-        void SaveDate()
-        {
-            //存储数据
-            var dataPath = System.IO.Path.GetFullPath(".");
-            dataPath = dataPath.Replace("\\", "/");
-            dataPath += "/Library/Tools/FileTemplate.dat";
-            if (!File.Exists(dataPath))
-            {
-                if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
-                }
-            }
-
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create(dataPath);
-
-            bf.Serialize(file, m_TabData);
-            file.Close();
-        }
-        /// <summary>
-        /// 初始化数据
-        /// </summary>
-        void InitDate()
-        {
-            m_TabData.excelpath = "Ces";
-        }
 
         private static ExcelWindows s_instance = null;
 
@@ -111,7 +50,6 @@ namespace Framework.Editor.Tools.Language
         private ExportExcel m_Export;
 
         private ExcelType m_type = ExcelType.ImportExcel;
-        private LanguageDate m_TabData;
 
 
 
@@ -160,25 +98,11 @@ namespace Framework.Editor.Tools.Language
         private void HandToggleUI()
         {
             EditorGUILayout.Space();
-            EditorGUILayout.BeginHorizontal();
 
-            GUILayout.Space(k_ToolbarPadding);
-            float toolbarWidth = (position.width - k_ToolButtonspacing * ((int)ExcelType.Count) - k_ToolbarPadding * 2) / ((int)ExcelType.Count);
-            for (int i = 0; i < (int)ExcelType.Count; i++)
-            {
-                string tempName = ((ExcelType)i).ToString();
-                if (GUILayout.Button(tempName, GUILayout.Width(toolbarWidth)))
-                {
-                    m_type = (ExcelType)i;
-                }
-            }
+            Tools_Public.EnumButton<ExcelType>(ref m_type, position.width);
 
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.Label("----> " + m_type.ToString() + " <----");
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
+            Tools_Public.CenterLabel("---->" + m_type.ToString() + "<----");
+
             EditorGUILayout.Space();
         }
 
@@ -195,7 +119,6 @@ namespace Framework.Editor.Tools.Language
                     if (m_Export != null)
                         m_Export.OnGUI();
                     break;
-                case ExcelType.Count:
                 default:
                     break;
             }
@@ -206,11 +129,6 @@ namespace Framework.Editor.Tools.Language
         {
             ImportExcel,
             ExportExcel,
-            Count
-        }
-        internal class LanguageDate
-        {
-            internal string excelpath;
         }
     }
 }

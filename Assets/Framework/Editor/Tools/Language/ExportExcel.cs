@@ -12,7 +12,7 @@ namespace Framework.Editor.Tools.Language
 
         internal override void OnEnable(EditorWindow editor)
         {
-            m_date = ReadDate<LanguageDate>(filepath);
+            m_date = Tools_Public.ReadDate<LanguageDate>(filepath);
             if (m_date == null)
             {
                 m_date = new LanguageDate();
@@ -32,7 +32,7 @@ namespace Framework.Editor.Tools.Language
 
         internal override void OnDisable()
         {
-            SaveDate(filepath, m_date);
+            Tools_Public.SaveDate(filepath, m_date);
         }
 
         internal override void OnGUI()
@@ -44,7 +44,7 @@ namespace Framework.Editor.Tools.Language
                 m_date.excelpath = EditorGUILayout.TextField("Excel Path", m_date.excelpath);
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+                if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
                 {
                     var newPath = EditorUtility.OpenFolderPanel("OpenFile", Application.dataPath, "");
                     if (!string.IsNullOrEmpty(newPath))
@@ -59,7 +59,7 @@ namespace Framework.Editor.Tools.Language
             //µ¼³ö import
             using (new EditorGUI.DisabledScope())
             {
-                if (CenterButton("Export Excel", GUILayout.Width(_CenterButton_Width)))
+                if (Tools_Public.CenterButton("Export Excel", GUILayout.Width(Tools_Public.Tools_MaxButtonWidth)))
                 {
 
                 }

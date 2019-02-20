@@ -58,7 +58,7 @@ namespace Framework.Editor.Tools
 
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+            if (GUILayout.Button("OpenFile", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
             {
                 var newPath = EditorUtility.OpenFolderPanel("OpenFile", Application.dataPath, "");
                 if (!string.IsNullOrEmpty(newPath))
@@ -75,7 +75,7 @@ namespace Framework.Editor.Tools
                     }
                 }
             }
-            if (GUILayout.Button("UpDate", GUILayout.MaxWidth(Tools_Const.Tools_MinButtonWidth)))
+            if (GUILayout.Button("UpDate", GUILayout.MaxWidth(Tools_Public.Tools_MinButtonWidth)))
             {
                 m_ModuleInfo.Init();
             }
@@ -87,7 +87,7 @@ namespace Framework.Editor.Tools
             EditorGUILayout.Space();
             CenterButton("Create Module", ()=> {
                 CreateFolder(m_ModuleInfo.ModulePath, m_ModuleInfo.ModuleName, m_ModuleInfo.ModuleTips);
-            }, GUILayout.MaxWidth(Tools_Const.Tools_MaxButtonWidth));
+            }, GUILayout.MaxWidth(Tools_Public.Tools_MaxButtonWidth));
             GUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
         }
