@@ -1,16 +1,15 @@
 
 using UnityEditor;
 using UnityEngine;
-using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+
+
 
 namespace Framework.Editor.Tools.Language
 {
-    public class ExcelWindows : WindowBaseEditor
+    public class ExcelWindows : WindowBaseEditor<ExcelWindows>
     {
 
-        [MenuItem("Tools/Language", priority = 2000)]
+        [MenuItem("Tools/Language", priority = 11)]
         static void OpenWindows()
         {
             s_instance = null;
@@ -18,26 +17,7 @@ namespace Framework.Editor.Tools.Language
             instance.Show();
         }
 
-        //[MenuItem("Tools/Language/Import Excel", priority = 2000)]
-        //static void ImportExcels()
-        //{
-        //}
-        //[MenuItem("Tools/Language/Export Excel", priority = 2000)]
-        //static void ExportExcels()
-        //{
-        //}
 
-        private static ExcelWindows s_instance = null;
-
-        internal static ExcelWindows instance {
-            get {
-                if (s_instance == null)
-                {
-                    s_instance = GetWindow<ExcelWindows>();
-                }
-                return s_instance;
-            }
-        }
         internal ExcelWindows()
         {
             if (m_Export == null)
@@ -77,9 +57,6 @@ namespace Framework.Editor.Tools.Language
             }
         }
 
-
-        const float k_ToolbarPadding = 15f;
-        const float k_ToolButtonspacing = 5f;
         private Vector2 m_ScrollPosition;
         private void OnGUI()
         {

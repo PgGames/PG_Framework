@@ -7,13 +7,17 @@ using System.Collections.Generic;
 
 namespace Framework.Editor.Tools.FileTemplate
 {
-    public class File_Setting
+    public class File_Setting : WindowBase
     {
         Tools_FileTemplate m_Date;
 
-        internal void OnEnable(EditorWindow varWindow)
+        internal override void OnEnable(EditorWindow varWindow)
         {
             m_Date = varWindow as Tools_FileTemplate;
+            if (m_Date == null)
+            {
+                m_Date = Tools_FileTemplate.instance;
+            }
         }
 
 
@@ -21,8 +25,8 @@ namespace Framework.Editor.Tools.FileTemplate
         const float k_ToolButtonspacing = 5f;
         const float k_ButtonSingleWidth = 20f;
         const float k_AddButtonWidth = 100f;
-        internal void OnGUI()
-        { 
+        internal override void OnGUI()
+        {
             EditorGUILayout.Space();
             //Copyright
             using (new EditorGUI.DisabledScope())

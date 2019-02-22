@@ -8,27 +8,27 @@ namespace Framework.Editor.Tools
 {
     public class Tools_Path 
     {
-        [MenuItem("Tools/Open Folder Path/Persistent Data Path", priority = 2)]
+        [MenuItem("Tools/Open Folder Path/Persistent Data Path", priority = 202)]
         static void OpenPersistentDataPath()
         {
             Application.OpenURL(Application.persistentDataPath);
         }
-        [MenuItem("Tools/Open Folder Path/Data Path", priority = 3)]
+        [MenuItem("Tools/Open Folder Path/Data Path", priority = 203)]
         static void OpenDataPath()
         {
             Application.OpenURL(Application.dataPath);
         }
-        [MenuItem("Tools/Open Folder Path/Streaming Assets Path", priority = 4)]
+        [MenuItem("Tools/Open Folder Path/Streaming Assets Path", priority = 204)]
         static void OpenStreamingAssetsPath()
         {
             Application.OpenURL(Application.streamingAssetsPath);
         }
-        [MenuItem("Tools/Open Folder Path/Temporary Cache Path", priority = 5)]
+        [MenuItem("Tools/Open Folder Path/Temporary Cache Path", priority = 205)]
         static void OpenTemporaryCachePath()
         {
             Application.OpenURL(Application.temporaryCachePath);
         }
-        [MenuItem("Tools/Open Folder Path/Unity Path", priority = 6)]
+        [MenuItem("Tools/Open Folder Path/Unity Path", priority = 206)]
         static void OpenUnityPath()
         {
             FileInfo varInfo = new FileInfo(EditorApplication.applicationPath);
@@ -37,7 +37,7 @@ namespace Framework.Editor.Tools
                 Application.OpenURL(varInfo.DirectoryName);
             }
         }
-        [MenuItem("Tools/Open Folder Path/Unity Script Templates Path", priority = 7)]
+        [MenuItem("Tools/Open Folder Path/Unity Script Templates Path", priority = 207)]
         static void OpenUnityScriptTemplatesPath()
         {
             var path = EditorApplication.applicationContentsPath + "/Resources/ScriptTemplates";

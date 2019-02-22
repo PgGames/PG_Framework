@@ -1,32 +1,29 @@
-
 using UnityEngine;
-using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Text;
+
+
 
 namespace Framework.Editor.Tools.FileTemplate
 {
-    public class Tools_FileTemplate : EditorWindow
+    public class Tools_FileTemplate : WindowBaseEditor<Tools_FileTemplate>
     {
-        private static Tools_FileTemplate s_instance = null;
-        internal static Tools_FileTemplate instance
-        {
-            get
-            {
-                if (s_instance == null)
-                    s_instance = GetWindow<Tools_FileTemplate>();
-                return s_instance;
-            }
-        }
-        [MenuItem("Tools/File Template", priority = 1)]
-        internal static void SettingFileTemplate()
+        [MenuItem("Tools/File Template", priority = 10)]
+        static void SettingFileTemplate()
         {
             s_instance = null;
             instance.titleContent = new GUIContent("File Template");
             instance.Show();
+        }
+
+
+        
+        internal Tools_FileTemplate()
+        {
+            if (m_FileSetting == null)
+                m_FileSetting = new File_Setting();
+            if (m_FilePrevew == null)
+                m_FilePrevew = new File_Prevew();
         }
         
         internal FileTemplateTabData m_TabData;
@@ -37,19 +34,17 @@ namespace Framework.Editor.Tools.FileTemplate
         private mode m_Mode = mode.Setting;
 
 
-        internal Tools_FileTemplate()
-        {
-            if (m_FileSetting == null)
-                m_FileSetting = new File_Setting();
-            if (m_FilePrevew == null)
-                m_FilePrevew = new File_Prevew();
-        }
 
 
         internal void OnEnable()
         {
-            ReadDate();
-            
+            m_TabData = Tools_Public.ReadDate<FileTemplateTabData>("FileTemplate");
+            if (m_TabData == null)
+            {
+                InitDate();
+            }
+
+
             if (m_FileSetting != null)
                 m_FileSetting.OnEnable(this);
             if (m_FilePrevew != null)
@@ -57,51 +52,8 @@ namespace Framework.Editor.Tools.FileTemplate
         }
         internal void OnDisable()
         {
-            //存储数据
-            var dataPath = System.IO.Path.GetFullPath(".");
-            dataPath = dataPath.Replace("\\", "/");
-            dataPath += "/Library/Tools/FileTemplate.dat";
-            if (!File.Exists(dataPath))
-            {
-                if (!Directory.Exists(Path.GetDirectoryName(dataPath)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(dataPath));
-                }
-            }
 
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create(dataPath);
-
-            bf.Serialize(file, m_TabData);
-            file.Close();
-        }
-
-
-        void ReadDate()
-        {
-            //读取数据
-            var dataPath = System.IO.Path.GetFullPath(".");
-            dataPath = dataPath.Replace("\\", "/");
-            dataPath += "/Library/Tools/FileTemplate.dat";
-            if (File.Exists(dataPath))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream file = File.Open(dataPath, FileMode.Open);
-                var data = bf.Deserialize(file) as FileTemplateTabData;
-                if (data != null)
-                {
-                    m_TabData = data;
-                }
-                else
-                {
-                    InitDate();
-                }
-                file.Close();
-            }
-            else
-            {
-                InitDate();
-            }
+            Tools_Public.SaveDate("FileTemplate", m_TabData);
         }
         internal void InitDate()
         {
@@ -152,18 +104,21 @@ namespace Framework.Editor.Tools.FileTemplate
         void HandToggleUI()
         {
             EditorGUILayout.Space();
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(k_ToolbarPadding);
-            float toolbarWidth = (position.width - k_ToolButtonspacing * ((int)mode.Count) - k_ToolbarPadding * 2) / ((int)mode.Count);
-            for (int i = 0; i < (int)mode.Count; i++)
-            {
-                string tempName = ((mode)i).ToString();
-                if (GUILayout.Button(tempName, GUILayout.Width(toolbarWidth)))
-                {
-                    m_Mode = (mode)i;
-                }
-            }
-            GUILayout.EndHorizontal();
+
+            Tools_Public.EnumButton<mode>(ref m_Mode, position.width);
+
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Space(k_ToolbarPadding);
+            //float toolbarWidth = (position.width - k_ToolButtonspacing * ((int)mode.Count) - k_ToolbarPadding * 2) / ((int)mode.Count);
+            //for (int i = 0; i < (int)mode.Count; i++)
+            //{
+            //    string tempName = ((mode)i).ToString();
+            //    if (GUILayout.Button(tempName, GUILayout.Width(toolbarWidth)))
+            //    {
+            //        m_Mode = (mode)i;
+            //    }
+            //}
+            //GUILayout.EndHorizontal();
         }
 
         /// <summary>
@@ -208,17 +163,15 @@ namespace Framework.Editor.Tools.FileTemplate
 
         private enum mode
         {
-            Noll = -1,
             Setting,        //设置
             Preview,        //预览
-            Count,
         }
 
 
 
 
         [System.Serializable]
-        internal class FileTemplateTabData
+        internal class FileTemplateTabData :BaseDate
         {
             internal string m_CopyrightName;
             internal bool m_UserCopyright = true;
